@@ -15,30 +15,31 @@ public class Main {
             System.out.println("4. Удалить дело по названию");
             System.out.println("5. Удалить все дела по ключевому слову");
             System.out.print("Ваш выбор: ");
-            int number = scanner.nextInt();
+            int number = Integer.parseInt(scanner.nextLine());
             if (number == 0) {
                 System.out.println("Программа завершена");
                 break;
             }
 
             switch (number) {
-                case 1 -> addTask(myList);
+                case 1 -> addTask(scanner, myList);
 
                 case 2 -> showListTasks(myList);
 
-                case 3 -> deleteTaskByNumber(myList);
+                case 3 -> deleteTaskByNumber(scanner, myList);
 
-                case 4 -> deleteTaskByName(myList);
+                case 4 -> deleteTaskByName(scanner, myList);
 
-                case 5 -> deleteTaskByWord(myList);
+                case 5 -> deleteTaskByWord(scanner, myList);
 
             }
         }
     }
 
-    public static void addTask(List<String> myList) {
+    public static void addTask(Scanner scanner, List<String> myList) {
         System.out.print("Введите название задачи: ");
-        myList.add(new Scanner(System.in).nextLine());
+        String task = scanner.nextLine();
+        myList.add(task);
         System.out.println("Добавлено!");
         showListTasks(myList);
 
@@ -52,19 +53,21 @@ public class Main {
         }
     }
 
-    public static void deleteTaskByNumber(List<String> myList) {
+    public static void deleteTaskByNumber(Scanner scanner, List<String> myList) {
         System.out.print("Введите номер для удаления:");
-        int number = new Scanner(System.in).nextInt();
+        int number = Integer.parseInt(scanner.nextLine());
         if (number > 0 && number <= myList.size()) {
             myList.remove(number - 1);
             System.out.println("Удалено!");
+        } else {
+            System.out.println("Задача не найдена!");
         }
         showListTasks(myList);
     }
 
-    public static void deleteTaskByName(List<String> myList) {
+    public static void deleteTaskByName(Scanner scanner, List<String> myList) {
         System.out.print("Введите задачу для удаления:");
-        String task = new Scanner(System.in).nextLine();
+        String task = scanner.nextLine();
         if (myList.remove(task)) {
             System.out.println("Удалено!");
         } else {
@@ -73,10 +76,10 @@ public class Main {
         showListTasks(myList);
     }
 
-    public static void deleteTaskByWord(List<String> myList) {
+    public static void deleteTaskByWord(Scanner scanner, List<String> myList) {
         List<String> trashList = new ArrayList<>();
         System.out.print("Введите ключевое слово: ");
-        String word = new Scanner(System.in).nextLine();
+        String word = scanner.nextLine();
         for (String task : myList) {
             if (task.contains(word)) {
                 trashList.add(task);
